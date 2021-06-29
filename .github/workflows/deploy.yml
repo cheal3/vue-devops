@@ -6,34 +6,36 @@ name: Deployment
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  deploy :
-    reuns-on : ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest
+
   steps:
-  - name : Checkout source code
-    uses : actions/checkout@master
-  - name : Set Up Node.js
-  uses : actions/setup-node@master
-  with:
-    node-version :14.x
-  - name : Install dependencies
-  run : yarn install
+    - name: Checkout source code
+      uses: actions/checkout@master
 
-  - name : Buil page
-  run : yarn build
-  env :
-    NODE_ENV : production
+    - name: Set Up Node.js
+      uses: actions/setup-node@master
+      with: node-version :14.x
 
-  - name : Deploy to gh-pages
-  uses : peaceiris/actions-gh-pages@v3
-  with:
-    github_token : ${{ secrets.GITHUB_TOKEN }}
-    publish_dir : ./dist       
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Buil page
+      run: yarn build
+      env:
+        NODE_ENV: production
+
+    - name: Deploy to gh-pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
